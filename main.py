@@ -1,7 +1,7 @@
-from distutils import command
+from email import message
 from tkinter import *
-
-
+from tkinter import messagebox
+from dao import userdao
 
 # loign and signup
 
@@ -20,7 +20,9 @@ def signup():
 
     # all function start here
     def saveUser():
-        pass
+        userdao.saveUser(name.get(),username.get(),password.get())
+        messagebox.showinfo("successfylu!!!","user register success")
+        
     def loginCommand():
         signup.destroy()
         login()
@@ -57,9 +59,16 @@ def login():
     login.geometry("300x300")
     login.title("Login")
 
+    global username,password
+    l_username = StringVar(login)
+    l_password = StringVar(login)
+
     # all function start here
     def checkUser():
-        pass
+        if userdao.getUsernamePasswordByUser(l_username.get(),l_ password.get()):
+            messagebox.showinfo("message","login success!!")
+        else:
+            messagebox.showinfo("message","wrong username or password")
     def loginCommand():
         login.destroy()
         signup()
@@ -68,19 +77,16 @@ def login():
         home()
     # all function end
 
-    global username,password
-    username = StringVar(login)
-    password = StringVar(login)
     
     Label(login,text="  Login  ",font="arial 30").grid(row=1,column=0)
     Label(login,text="").grid(row=1,column=0)
     Label(login,text="").grid(row=2,column=0)
 
     Label(login,text="Username :",font="arial 10").grid(row=3,column=0)
-    Entry(login,bd=1,font="arial 10",relief="solid").grid(row=3,column=1)
+    Entry(login,bd=1,font="arial 10",relief="solid",textvariable=l_username).grid(row=3,column=1)
 
     Label(login,text="Password :",font="arial 10").grid(row=4,column=0)
-    Entry(login,bd=1,font="arial 10",relief="solid").grid(row=4,column=1)
+    Entry(login,bd=1,font="arial 10",relief="solid",textvariable=l_password).grid(row=4,column=1)
 
     Label(login,text="").grid(row=5,column=0)
     Label(login,text="").grid(row=6,column=0)
